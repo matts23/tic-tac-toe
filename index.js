@@ -23,11 +23,18 @@ startGameBtn.addEventListener('click',()=>{
 const gameBoard = (()=>{
     let gameState = ['','','','','','','','',''];
     let boardContainer = document.querySelector('#board-container');
-    let playerOne = Player(1,'X');
-    let playerTwo = Player(2,'O');
-    let turn = playerOne.getNumber();
     let playerOneLabel = document.querySelector('#player-1');
     let playerTwoLabel = document.querySelector('#player-2');
+    let message = document.createElement('span');
+    const lowerContainer = document.querySelector('#lower-container');
+
+    let playerOne = Player(1,'X');
+    let playerTwo = Player(2,'O');
+
+    let turn = playerOne.getNumber();
+
+    let playerOneCount = [];
+    let playerTwoCount = [];
 
     const renderBoard = () => {
         
@@ -54,12 +61,10 @@ const gameBoard = (()=>{
                 if(boardCell.textContent==='' && turn=== 1){
                     playerOne.setOccupied(index);
                     updateGameState(playerOne,index);
-                    console.log('p1: '+playerOne.getOccupied())
                 }
                 else if(boardCell.textContent===''&& turn=== 2){
                     playerTwo.setOccupied(index);
                     updateGameState(playerTwo, index);
-                    console.log('p2: '+playerTwo.getOccupied())
                 }
             })
             
@@ -81,18 +86,23 @@ const gameBoard = (()=>{
             turn = playerTwo.getNumber();
             playerOneLabel.removeAttribute('class','active');
             playerTwoLabel.setAttribute('class', 'active');
+            checkGame(playerOne);
         }
         else{
             gameState.splice(move, 1, 'O');
             turn = playerOne.getNumber();
             playerTwoLabel.removeAttribute('class','active');
             playerOneLabel.setAttribute('class', 'active');
+            checkGame(playerTwo);
         }
         renderBoard();
     }
-    /*
+    
     const checkGame = (player) =>{
-        let playerSpaces = player.getOccupied();
+        
+        let playerArray = player.getOccupied();
+        
+        playerArray = playerArray.map(x => parseInt(x,10));
         let winningSets = [[0,1,2],
                            [3,4,5],
                            [6,7,8],
@@ -101,10 +111,21 @@ const gameBoard = (()=>{
                            [2,5,8],
                            [0,4,8],
                            [2,4,6]]
-
-        for(let i=0; i<)
+        for(let i=0; i<winningSets.length; i++){
+            
+            if(playerArray.includes(winningSets[i][0]) &&
+               playerArray.includes(winningSets[i][1]) &&
+               playerArray.includes(winningSets[i][2])){
+                 
+                
+                message.textContent = `Player ${player.getNumber()} Wins!`;
+                message.setAttribute('id', 'win-message')
+                lowerContainer.appendChild(message)
+                
+            } 
+        }
     };
-    */
+    
 
     const resetBoard = () => {
         let first = boardContainer.firstElementChild; 
@@ -119,6 +140,9 @@ const gameBoard = (()=>{
         turn = playerOne.getNumber();
         playerOne.setOccupied('reset');
         playerTwo.setOccupied('reset');
+        lowerContainer.removeChild(message)
+        playerOneCount=[];
+        playerTwoCount=[];
         renderBoard();
     }
 

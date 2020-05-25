@@ -1,10 +1,12 @@
 #board-container{
+    position: relative;
     width:300px;
     border: 1px solid black;
     display:grid;
     grid-template-columns: 100px 100px 100px ;
     grid-template-rows: 100px 100px 100px;
     margin:auto;
+    z-index: 2;
 }
 
 .board-cell{
@@ -48,4 +50,8 @@
     border:2px solid white;
     border-radius: 1rem;
     cursor: pointer;
+}
+
+#win-message{
+    text-align: center;
 }
