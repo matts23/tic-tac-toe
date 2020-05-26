@@ -25,16 +25,9 @@ const gameBoard = (()=>{
     let boardContainer = document.querySelector('#board-container');
     let playerOneLabel = document.querySelector('#player-1');
     let playerTwoLabel = document.querySelector('#player-2');
-    let message = document.createElement('span');
-    const lowerContainer = document.querySelector('#lower-container');
-
     let playerOne = Player(1,'X');
     let playerTwo = Player(2,'O');
-
     let turn = playerOne.getNumber();
-
-    let playerOneCount = [];
-    let playerTwoCount = [];
 
     const renderBoard = () => {
         
@@ -72,7 +65,6 @@ const gameBoard = (()=>{
         };
     };
 
-    //move = index of move on board array
     const updateGameState = (player,move) =>{
 
         let first = boardContainer.firstElementChild; 
@@ -111,17 +103,13 @@ const gameBoard = (()=>{
                            [2,5,8],
                            [0,4,8],
                            [2,4,6]]
+                           
         for(let i=0; i<winningSets.length; i++){
             
             if(playerArray.includes(winningSets[i][0]) &&
                playerArray.includes(winningSets[i][1]) &&
                playerArray.includes(winningSets[i][2])){
-                 
-                
-                message.textContent = `Player ${player.getNumber()} Wins!`;
-                message.setAttribute('id', 'win-message')
-                lowerContainer.appendChild(message)
-                
+                 console.log(`Player ${player.getNumber()} Wins!`);
             } 
         }
     };
@@ -140,9 +128,6 @@ const gameBoard = (()=>{
         turn = playerOne.getNumber();
         playerOne.setOccupied('reset');
         playerTwo.setOccupied('reset');
-        lowerContainer.removeChild(message)
-        playerOneCount=[];
-        playerTwoCount=[];
         renderBoard();
     }
 
